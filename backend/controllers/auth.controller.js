@@ -25,11 +25,11 @@ const setCookies = (res, accessToken, refreshToken) => {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production' || true,
 		sameSite: 'strict',
-		maxAge: 604800000,
+		maxAge: 604800000
   })
 }
 
-export const signup = async (req, res) => {
+const signup = async (req, res) => {
   const {name, email, password} = req.body
 
   try {
@@ -62,9 +62,9 @@ export const signup = async (req, res) => {
   }
 }
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
 	try {
-		const { email, password } = req.body
+		const {email, password} = req.body
 		const user = await User.findOne({ email })
 
 		if (user && (await user.comparePassword(password))) {
@@ -91,7 +91,7 @@ export const login = async (req, res) => {
 	}
 }
 
-export const logout = async (req, res) => {
+const logout = async (req, res) => {
   try {
     const refreshToken = req.cookies.refreshToken
 
@@ -106,11 +106,11 @@ export const logout = async (req, res) => {
     res.json({success: true, message: `User ${decoded.name} has logged out`})
 
   } catch (err) {
-    res.status(500).json({ success: false, message: `Error in Log-out controller: ${err.message}` })
+    res.status(500).json({success: false, message: `Error in Log-out controller: ${err.message}`})
   }
 }
 
-export const refreshToken = async (req, res) => {
+const refreshToken = async (req, res) => {
 	try {
 		const refreshToken = req.cookies.refreshToken
 
@@ -136,16 +136,18 @@ export const refreshToken = async (req, res) => {
 			maxAge: 900000,
 		})
 
-		res.json({ message: 'Token refreshed successfully' })
+		res.json({ success: true, message: 'Token refreshed successfully' })
 	} catch (err) {
     res.status(500).json({ success: false, message: `Error in Refresh controller: ${err.message}` })
 	}
 }
 
-export const getProfile = async (req, res) => {
+const getProfile = async (req, res) => {
 	try {
 		res.json(req.user)
 	} catch (err) {
     res.status(500).json({ success: false, message: `Error in Profile controller: ${err.message}` })
 	}
 }
+
+export { signup, login, logout, refreshToken, getProfile }

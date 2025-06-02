@@ -8,6 +8,6 @@ router.post('/signup', signup)
 router.post('/login', login)
 router.get('/logout', logout)
 router.post('/refresh', refreshToken)
-router.get('profile', protectRoute, getProfile)
+router.get('/profile', protectRoute, getProfile)
 
 export { router }
