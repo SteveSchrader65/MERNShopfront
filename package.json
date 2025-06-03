@@ -8,9 +8,7 @@
 		"dev": "nodemon backend/server.js",
 		"start": "node backend/server.js"
 	},
-	"keywords": [
-		"MERN"
-	],
+	"keywords": ["MERN"],
 	"author": "SteveSchrader",
 	"license": "ISC",
 	"description": "Online shopfront created with MERN stack tutorial",

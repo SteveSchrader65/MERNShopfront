@@ -1,12 +1,14 @@
 import jwt from 'jsonwebtoken'
 import { User } from '../models/user.model.js'
 
-const protectRoute = async (req, res, next) => {
+const protectedRoute = async (req, res, next) => {
 	try {
 		const accessToken = req.cookies.accessToken
 
 		if (!accessToken) {
-			return res.status(401).json({success: false, message: 'Unauthorized - No access token' })
+			return res
+				.status(401)
+				.json({ success: false, message: 'Unauthorized - No access token' })
 		}
 
 		try {
@@ -14,7 +16,7 @@ const protectRoute = async (req, res, next) => {
 			const user = await User.findById(decoded.userId).select('-password')
 
 			if (!user) {
-				return res.status(401).json({success: false, message: 'User not found' })
+				return res.status(401).json({ success: false, message: 'User not found' })
 			}
 
 			req.user = user
@@ -26,7 +28,9 @@ const protectRoute = async (req, res, next) => {
 			throw error
 		}
 	} catch (err) {
-		return res.status(401).json({ success: false, message: `Error in protectRoute middleware: ${err.message}` })
+		return res
+			.status(401)
+			.json({ success: false, message: `Error in protectedRoute middleware: ${err.message}` })
 	}
 }
 
@@ -34,8 +38,8 @@ const adminRoute = (req, res, next) => {
 	if (req.user && req.user.role === 'admin') {
 		next()
 	} else {
-		return res.status(403).json({success: false, message: 'Access denied - Admin only' })
+		return res.status(403).json({ success: false, message: 'Access denied - Admin only' })
 	}
 }
 
-export { protectRoute, adminRoute }
+export { protectedRoute, adminRoute }
