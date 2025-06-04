@@ -25,7 +25,7 @@ const Navbar = () => {
 								<ShoppingCart className='inline-block mr-1 group-hover:text-emerald-400' size={20} />
 								<span className='hidden sm:inline'></span>
 								{cart.length > 0 && (
-									<span className='absolute -top-2 -right-2 bg-emerald-500 text-[#e3e3e3] rounded-full px-2 py-0.5 text-xs group-hover:bg-emerald-400 styleSet2'>
+									<span className='absolute -top-2 -right-2 bg-emerald-500 text-white rounded-full px-1.5 py-0.25 text-xs group-hover:bg-emerald-400 styleSet2'>
 										{cart.length}
 									</span>
 								)}
