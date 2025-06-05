@@ -6,7 +6,7 @@ dotenv.config()
 const PORT = process.env.PORT
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.mode === 'development' ? `http://localhost:${PORT}/api` : '/api',
+  baseURL: import.meta.env.mode === 'development' ? `http://localhost:${PORT}/api` : '/api',
   withCredentials: true,
 })
 

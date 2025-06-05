@@ -4,7 +4,7 @@ import { UserPlus, Mail, Lock, User, ArrowRight, Loader } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useUserStore } from '../stores/useUserStore'
 
-const SignUpPage = () => {
+const SignupPage = () => {
 	const [formData, setFormData] = useState({
     name: '',
 		email: '',
@@ -86,4 +86,4 @@ const SignUpPage = () => {
 	)
 }
 
-export { SignUpPage }
+export { SignupPage }

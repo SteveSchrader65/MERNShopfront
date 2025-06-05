@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useCartStore } from '../stores/useCartStore'
+import { useCartStore } from '../stores/useCartStore.js'
+
 
 const FeaturedProducts = ({ featuredProducts }) => {
-	const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
 	const [itemsPerPage, setItemsPerPage] = useState(4)
-
 	const { addToCart } = useCartStore()
 
 	useEffect(() => {
@@ -20,6 +20,17 @@ const FeaturedProducts = ({ featuredProducts }) => {
 		window.addEventListener('resize', handleResize)
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
+
+	if (!featuredProducts || !Array.isArray(featuredProducts) || featuredProducts.length === 0) {
+		return (
+			<div className='py-12'>
+				<div className='container mx-auto px-4'>
+					<h2 className='text-center text-5xl sm:text-6xl font-bold text-emerald-400 mb-4'>Featured</h2>
+					<p className='text-center text-gray-300'>No featured products available</p>
+				</div>
+			</div>
+		)
+	}
 
 	const nextSlide = () => {
 		setCurrentIndex((prevIndex) => prevIndex + itemsPerPage)
