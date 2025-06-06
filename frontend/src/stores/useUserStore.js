@@ -17,7 +17,7 @@ export const useUserStore = create((set, get) => ({
 		}
 
 		try {
-			const res = await axios.post('/auth/signup', { name, email, password })
+			const res = await axios.post('api/auth/signup', { name, email, password })
 
       set({ user: res.data, loading: false })
 		} catch (error) {
@@ -30,7 +30,7 @@ export const useUserStore = create((set, get) => ({
 		set({ loading: true })
 
 		try {
-			const res = await axios.post('/auth/login', { email, password })
+			const res = await axios.post('api/auth/login', { email, password })
 
 			set({ user: res.data, loading: false })
 		} catch (error) {
@@ -41,31 +41,38 @@ export const useUserStore = create((set, get) => ({
 
 	logout: async () => {
 		try {
-			await axios.post('/auth/logout')
+			await axios.get('api/auth/logout')
 			set({ user: null })
 		} catch (error) {
 			toast.error(error.response?.data?.message || 'Error in Logout route')
 		}
 	},
 
-	checkAuth: async () => {
-		set({ checkingAuth: true })
-		try {
-			const response = await axios.get('/auth/profile')
+  checkAuth: async () => {
+      set({ checkingAuth: true })
+      try {
+          const response = await axios.get('api/auth/profile')
 
-      set({ user: response.data, checkingAuth: false })
-		} catch (error) {
-			console.log(error.message)
-			set({ checkingAuth: false, user: null })
-		}
-	},
+          if (typeof response.data === 'string' || !response.data || response.data.includes('<!doctype')) {
+              console.log('checkAuth: received HTML instead of user data')
+              set({ checkingAuth: false, user: null })
+              return
+          }
+
+          console.log('checkAuth success:', response.data)
+          set({ user: response.data, checkingAuth: false })
+      } catch (error) {
+          console.log('checkAuth failed:', error.response?.status, error.message)
+          set({ checkingAuth: false, user: null })
+      }
+  },
 
 	refreshToken: async () => {
 		if (get().checkingAuth) return
 
 		set({ checkingAuth: true })
 		try {
-			const response = await axios.post('/auth/refresh-token')
+			const response = await axios.post('api/auth/refresh-token')
 
       set({ checkingAuth: false })
 

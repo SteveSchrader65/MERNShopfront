@@ -24,7 +24,6 @@ app.use('/api/coupons', couponRouter)
 app.use('/api/payments', paymentRouter)
 app.use('/api/analytics', analyticsRouter)
 
-
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
   connectDB()
